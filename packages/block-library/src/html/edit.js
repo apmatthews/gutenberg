@@ -1,9 +1,4 @@
 /**
- * External dependencies
- */
-import classnames from 'classnames';
-
-/**
  * WordPress dependencies
  */
 import {
@@ -50,11 +45,7 @@ export default function HTMLEdit( { attributes, setAttributes, isSelected } ) {
 	}
 
 	return (
-		<Block.div
-			className={ classnames( 'wp-block-html', {
-				'is-html-editor': ! isPreview,
-			} ) }
-		>
+		<>
 			<BlockControls>
 				<ToolbarGroup>
 					<Button isPressed={ ! isPreview } onClick={ switchToHTML }>
@@ -68,7 +59,7 @@ export default function HTMLEdit( { attributes, setAttributes, isSelected } ) {
 			<Disabled.Consumer>
 				{ ( isDisabled ) =>
 					isPreview || isDisabled ? (
-						<>
+						<Block.div className="wp-block-html">
 							<SandBox
 								html={ attributes.content }
 								styles={ styles }
@@ -81,20 +72,21 @@ export default function HTMLEdit( { attributes, setAttributes, isSelected } ) {
 							{ ! isSelected && (
 								<div className="block-library-html__preview-overlay" />
 							) }
-						</>
+						</Block.div>
 					) : (
-						<PlainText
-							__experimentalVersion={ 2 }
-							value={ attributes.content }
-							onChange={ ( content ) =>
-								setAttributes( { content } )
-							}
-							aria-label={ __( 'HTML' ) }
-							placeholder={ __( 'Write HTML…' ) }
-						/>
+						<Block.div className="wp-block-html is-html-editor">
+							<PlainText
+								__experimentalVersion={ 2 }
+								value={ attributes.content }
+								onChange={ ( content ) =>
+									setAttributes( { content } )
+								}
+								placeholder={ __( 'Write HTML…' ) }
+							/>
+						</Block.div>
 					)
 				}
 			</Disabled.Consumer>
-		</Block.div>
+		</>
 	);
 }
